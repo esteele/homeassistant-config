@@ -17,6 +17,8 @@ class MorningAnnouncement(appapi.AppDaemon):
         # self.run_in(self.morning_start_up, 15)
 
     def morning_start_up(self, *args):
+        """ Play the morning announcement over the kitchen sonos speakers.
+        """
         self.log('triggering morning announcement')
         message = Template("Good morning. $date $weather $school")
         message = message.safe_substitute(date=self.today_date(),
@@ -32,7 +34,8 @@ class MorningAnnouncement(appapi.AppDaemon):
                           source='Classical AM')
 
     def today_date(self):
-
+        """ Get today's date in the format "Tuesday, May 2nd"
+        """
         def suffix(d):
             return 'th' if 11<=d<=13 else {1: 'st',2:'nd',3:'rd'}.get(d%10, 'th')
 
@@ -42,6 +45,8 @@ class MorningAnnouncement(appapi.AppDaemon):
         return custom_strftime("It's %A %B {S}.", datetime.datetime.now())
 
     def weather_summary(self):
+        """ Get the day's simplified forecast: general weather, high, low temps
+        """
         weather = {
             'low': int(float(self.get_state(
                 'sensor.dark_sky_daily_low_apparent_temperature'))),
@@ -57,6 +62,8 @@ class MorningAnnouncement(appapi.AppDaemon):
         return forecast.safe_substitute(weather)
 
     def school_summary(self):
+        """ Get the school day from Google Calendar, use that to look up school specials
+        """
         message = ''
         if self.get_state('calendar.is_school_day1') == 'on':
             message = "Today at school, day one. Molly has gym. Emma has library and technology."
