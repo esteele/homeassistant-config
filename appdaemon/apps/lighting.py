@@ -167,7 +167,7 @@ class Lighting(appapi.AppDaemon):
 
 class Porch(Lighting):
 
-    LIGHT_NAME = 'switch.front_porch'
+    LIGHT_NAME = 'light.front_porch'
     # LIGHT_NAME = 'switch.icicle_lights_switch'
 
     def initialize(self):
@@ -355,6 +355,7 @@ class Away(Lighting):
         if self.is_evening:
             # interior
             self.turn_on('group.kitchen')
+            self.turn_on('light.foyer')
             # exterior
             self.turn_on_lights_with_timer(
                 entity_id='switch.backyard_lights_switch')
@@ -367,5 +368,6 @@ class Away(Lighting):
             self.turn_on_lights_with_timer(
                 entity_id='switch.backyard_lights_switch')
             self.turn_on_lights_with_timer(
-                entity_id='group.front_porch_light')
+                entity_id='light.front_porch')
+            self.turn_on('light.foyer')
             self.turn_on('switch.kitchen_island_switch')
