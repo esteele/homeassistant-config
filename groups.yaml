@@ -87,7 +87,7 @@ Kitchen:
 - switch.kitchen_table_switch
 - sensor.kitchen_temperature
 Dining Room:
-- light.chandelier
+- light.dining_room
 Kitchen Lights:
 - switch.kitchen_island_switch
 - switch.kitchen_counters_switch
