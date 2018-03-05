@@ -22,3 +22,5 @@ home-assistant_v2.db*
 /ecobee.conf
 /known_devices.yaml
 /google_calendars.yaml
+/tts
+/appdaemon/appdaemon.yaml
