@@ -21,3 +21,4 @@ home-assistant_v2.db*
 /secrets.yaml
 /ecobee.conf
 /known_devices.yaml
+/google_calendars.yaml
