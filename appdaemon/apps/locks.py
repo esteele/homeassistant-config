@@ -33,8 +33,8 @@ class Locks(appapi.AppDaemon):
     def set_lock_code(self, slot, code):
         for node_id in [17, 18]:
             self('Setting lock code for node %s on slot %s' % (node_id, slot))
-            self.call_service('lock/set_usercode', node_id=node_id, code_slot=slot, code=code)
  
+            self.call_service('lock/set_usercode', node_id=node_id, code_slot=slot, usercode=code)
 
     def clear_lock_code(self, slot):
         for node_id in [17, 18]:
