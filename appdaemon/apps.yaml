@@ -1,0 +1,68 @@
+owntracks:
+  module: owntracks
+  class: Owntracks
+  refresh_minutes: 15
+  devices: eric_iphone,pam_iphone
+
+# Lighting base class
+Lighting:
+  module: lighting
+  class: Lighting
+
+porch:
+  module: lighting
+  class: Porch
+  dependencies: Lighting
+
+morningannouncement:
+  module: notifications
+  class: MorningAnnouncement
+  dependencies: utils
+
+movietime:
+  module: lighting
+  class: MovieTime
+  dependencies: Lighting
+
+lantern:
+  module: lighting
+  class: Lantern
+  dependencies: Lighting
+
+away:
+  module: lighting
+  class: Away
+  dependencies: Lighting
+
+irrigation:
+  module: irrigation
+  class: Irrigation
+
+# locks:
+#   module: lighting
+#   class: Locks
+
+hueupdate:
+  module: alerts
+  class: HueUpdates
+
+locks:
+  module: locks
+  class: Locks
+
+
+# # flux:
+#   # module: lighting
+#   # class: Flux
+#   # dependencies: Lighting
+
+thermostat:
+  module: thermostat
+  class: Thermostat
+  evening_start_time: sunset - 01:00:00
+
+
+nobodyhome:
+  module: house
+  class: House
+
