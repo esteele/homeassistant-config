@@ -1,0 +1,54 @@
+  lights_morning:
+    name: Enable interior lights on in morning
+    initial: on
+    icon: mdi:theme-light-dark
+
+  lights_evening:
+    name: Enable interior lights on at sunset
+    initial: on
+    icon: mdi:weather-sunset-down
+
+  # rainy_day:
+  #   name: Rainy Day Lighting
+  #   initial: off
+  #   icon: mdi:water
+
+  # vacation_mode:
+  #   name: Vacation Mode
+  #   initial: off
+  #   icon: mdi:airplane
+
+  # exterior_off_night:
+  #   name: Disable Exterior Lights Off at Night
+  #   initial: off
+  #   icon: mdi:weather-night
+
+  # exterior_on_sunset:
+  #   name: Disable Exterior Lights On at Sunset
+  #   initial: off
+  #   icon: mdi:weather-sunset-down
+
+  # home_away:
+  #   name: Disable Home / Away Mode
+  #   initial: off
+  #   icon: mdi:map-marker-off
+
+  babysitter_mode:
+    name: Enable Babysitter Mode
+    initial: off
+    icon: mdi:duck
+
+  flux_lights:
+    name: Enable evening color change
+    initial: on
+    icon: mdi:weather-sunset-down
+
+  movie_lighting:
+    name: Enable movie lighting change
+    initial: on
+    icon: mdi:movie
+
+  voice_notifications:
+    name: Enable voice notifications
+    initial: on
+    icon: mdi:bullhorn
