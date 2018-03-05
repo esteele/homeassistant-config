@@ -1,0 +1,74 @@
+push:
+  categories:
+    - name: nobody_home
+      identifier: 'NOBODY_HOME'
+      actions:
+        - identifier: 'LOCK_ALL_DOORS'
+          title: 'Lock all doors'
+          activationMode: 'background'
+          authenticationRequired: yes
+        - identifier: 'TURN_ON_BABYSITTER_MODE'
+          title: 'Turn on babysitter mode'
+          activationMode: 'background'
+          authenticationRequired: yes
+    - name: welcome_home_ready
+      identifier: 'WELCOME_HOME_READY'
+      actions:
+        - identifier: 'DISMISS'
+          title: 'Dismiss'
+          activationMode: 'background'
+          authenticationRequired: yes
+          destructive: yes
+    - name: welcome_home_rear_only
+      identifier: 'WELCOME_HOME_REAR_ONLY'
+      actions:
+        - identifier: 'UNLOCK_REAR_DOOR'
+          title: 'Unlock rear door'
+          activationMode: 'background'
+          authenticationRequired: yes
+    - name: welcome_home_front_only
+      identifier: 'WELCOME_HOME_FRONT_ONLY'
+      actions:
+        - identifier: 'UNLOCK_FRONT_DOOR'
+          title: 'Unlock front door'
+          activationMode: 'background'
+          authenticationRequired: yes
+    - name: welcome_home_both_doors
+      identifier: 'WELCOME_HOME_BOTH_DOORS'
+      actions:
+        - identifier: 'UNLOCK_FRONT_DOOR'
+          title: 'Unlock front door'
+          activationMode: 'background'
+          authenticationRequired: yes
+        - identifier: 'UNLOCK_REAR_DOOR'
+          title: 'Unlock rear door'
+          activationMode: 'background'
+          authenticationRequired: yes
+    - name: overnight_heating
+      identifier: 'OVERNIGHT_HEATING'
+      actions:
+        - identifier: 'TURN_ON_HEAT'
+          title: 'Turn on heat'
+          activationMode: 'background'
+          authenticationRequired: yes
+          destructive: no
+          behavior: 'default'
+    - name: mailbox_opened
+      identifier: 'MAILBOX_OPENED'
+      actions:
+        - identifier: 'DISMISS'
+          title: 'Dismiss'
+          activationMode: 'background'
+          authenticationRequired: yes
+          destructive: yes
+    - name: lighting_logger
+      identifier: 'LIGHTING_LOGGER'
+      actions:
+        - identifier: 'LOG_YES_LIGHT'
+          title: 'Yes'
+          activationMode: 'background'
+          authenticationRequired: yes
+        - identifier: 'LOG_NO_LIGHT'
+          title: 'No'
+          activationMode: 'background'
+          authenticationRequired: yes

@@ -1,0 +1,7 @@
+- name: Home
+  track_ios: true
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  elevation: !secret home_elevation
+  radius: 150
+  icon: mdi:home

@@ -1,0 +1,150 @@
+- name: Bright
+  entities:
+    group.living_room_overheads:
+      state: on
+      brightness: 254.0
+      xy_color: [0.438, 0.382]
+      transition: 3
+    group.living_room_lamps:
+      state: on
+      brightness: 254.0
+      transition: 3
+    switch.lantern_switch:
+      state: on
+    light.tv_backlight:
+      state: off
+    # switch.fluxer:
+    #   state: on
+
+- name: Dimmed
+  entities:
+    group.living_room_overheads:
+      state: on
+      brightness: 164.0
+      color_temp: 362
+    group.living_room_lamps:
+      state: on
+      brightness: 164.0
+    switch.lantern_switch:
+      state: on
+    light.tv_backlight:
+      state: off
+    # switch.fluxer:
+    #   state: on
+
+- name: Nightlight
+  entities:
+    group.living_room_overheads:
+      state: on
+      brightness: 10.0
+      color_temp: 451
+    group.living_room_lamps:
+      state: on
+      brightness: 10.0
+    switch.lantern_switch:
+      state: off
+    light.tv_backlight:
+      state: off
+
+- name: Welcome Home
+  entities:
+    switch.backyard_lights_switch:
+      state: on
+    group.kitchen:
+      state: on
+    group.dining_room:
+      state: on
+    group.living_room:
+      state: on
+      brightness: 254.0
+      xy_color: [0.438, 0.382]
+    group.christmas_lights:
+      state: on
+
+- name: Good Night
+  entities:
+    group.outside:
+      state: off
+    group.downstairs_lights:
+      state: off
+    light.tv_backlight:
+      state: off
+    lock.door_front_locked:
+      state: locked
+    lock.door_rear_locked:
+      state: locked
+
+# group.christmas_lights:
+#   state: off
+
+- name: Good Morning
+  entities:
+    group.outside:
+      state: off
+    group.kitchen:
+      state: on
+    group.living_room_overheads:
+      state: on
+      brightness: 254.0
+      color_temp: 362
+    group.living_room_lamps:
+      state: on
+      brightness: 254.0
+    switch.lantern_switch:
+      state: on
+
+- name: Movie_Paused
+  entities:
+    group.living_room_lamps:
+      state: on
+      brightness: 192
+      transition: 3
+    group.living_room_overheads:
+      state: on
+      brightness: 192
+      xy_color: [0.4998,0.4]
+      transition: 3
+    light.tv_backlight:
+      state: on
+      brightness: 120
+      xy_color: [0.3787,0.3775]
+      transition: 3
+    switch.lantern_switch:
+      state: on
+
+# - name: Movie_Playing
+#   entities:
+#     group.living_room_lamps:
+#       state: on
+#       brightness: 127
+#       transition: 3
+#     group.living_room_overheads:
+#       state: on
+#       brightness: 127
+#       xy_color: [0.1689, 0.0428]
+#       transition: 3
+#     switch.lantern_switch:
+#       state: off
+#     # switch.fluxer:
+#     #   state: off
+
+- name: Movie_Playing
+  entities:
+    group.living_room_lamps:
+      state: on
+      brightness: 25
+      transition: 3
+    group.living_room_overheads:
+      state: on
+      brightness: 20
+      xy_color: [0.4998,0.4]
+      transition: 3
+    light.tv_backlight:
+      state: on
+      brightness: 225
+      xy_color: [0.3787,0.3775]
+      transition: 3
+    switch.lantern_switch:
+      state: on
+    # switch.fluxer:
+    #   state: off

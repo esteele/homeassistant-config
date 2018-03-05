@@ -1,0 +1,338 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  elevation: !secret home_elevation
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/New_York
+  customize: !include customize.yaml
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  base_url: !secret base_url
+  #base_url: 192.168.1.5
+  api_password: !secret api_password
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+  ip_ban_enabled: True
+  login_attempts_threshold: 5
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+recorder:
+  # db_url: !secret recorder_db
+  purge_keep_days: 30
+  purge_interval: 1
+  exclude:
+    entities:
+      - sensor.yr_symbol
+      - sensor.time
+      - sensor.date
+      - sensor.dark_sky_minutely_summary
+      - sensor.dark_sky_hourly_summary
+      - sensor.dark_sky_daily_summary
+      - sensor.basement_freezer_access_control_12_9
+      - sensor.basement_freezer_alarm_level_12_1
+      - sensor.basement_freezer_alarm_type_12_0
+      - sensor.basement_freezer_burglar_12_10
+      - sensor.basement_freezer_general_12_0
+      - sensor.basement_freezer_heat_12_7
+      - sensor.basement_freezer_sourcenodeid_12_2
+      - sensor.basement_freezer_system_12_12
+      - sensor.lantern_energy_7_0
+logbook:
+
+logger:
+  default: warning
+  logs:
+    homeassistant.components.device_tracker.mqtt: error
+    homeassistant.components.media_player.apple_tv: error
+    homeassistant.components.climate.living_room: error
+
+# Track the sun
+sun:
+
+group: !include groups.yaml
+automation: !include automations.yaml
+input_boolean: !include input_boolean.yaml
+scene: !include scene.yaml
+ios: !include ios.yaml
+zone: !include zones.yaml
+
+ecobee:
+  api_key: !secret ecobee_key
+
+light:
+  platform: hue
+  host: 192.168.1.200
+  allow_unreachable: true
+  scan_interval: 10
+
+lutron_caseta:
+    host: 192.168.1.6
+    keyfile: caseta.key
+    certfile: caseta.crt
+    ca_certs: caseta-bridge.crt
+
+zwave:
+  usb_path: /dev/ttyACM0
+  new_entity_ids: true
+  network_key: !secret zwave_key
+  # config_path: /srv/homeassistant/src/python-openzwave/openzwave/config/
+  # polling_interval: 3000
+  # debug: 1
+
+switch:
+  - platform: flux
+    name: Fluxer
+    # start_time: '12:00'
+    # stop_time: '23:00'
+    lights:
+      - group.living_room
+    start_colortemp: 4000
+    sunset_colortemp: 3600
+    stop_colortemp: 2800
+    brightness: 200
+    disable_brightness_adjust: True
+    mode: xy
+
+sensor:
+  - platform: yr
+  - platform: speedtest
+    monitored_conditions:
+      - ping
+      - download
+      - upload
+    minute:
+      - 3
+      - 18
+      - 33
+      - 48
+  - platform: darksky
+    api_key: !secret forecast_key
+    forecast:
+      - 1
+    monitored_conditions:
+      - summary
+      - icon
+      - nearest_storm_distance
+      - precip_type
+      - precip_intensity
+      - precip_probability
+      - temperature
+      - visibility
+      - apparent_temperature
+      - apparent_temperature_min
+      - apparent_temperature_max
+      - cloud_cover
+      - humidity
+      - hourly_summary
+      - daily_summary
+  # - platform: ups
+  #   username: !secret ups_username
+  #   password: !secret ups_password
+  - platform: rest
+    resource: !secret hue_config_url
+    name: Hue Update Available
+    value_template: '{{ value_json.swupdate.updatestate != 0 }}'
+  - platform: template
+    sensors:
+      climate_state:
+        friendly_name: 'Climate State'
+        value_template: >-
+          {% if states.climate.living_room.attributes.mode == 'home' %}
+            Home
+          {% elif states.climate.living_room.attributes.mode == 'sleep' %}
+            Sleep
+          {% elif states.climate.living_room.attributes.mode == 'away' %}
+            Away
+          {% elif states.climate.living_room.attributes.mode == 'smart1' %}
+            Workday
+          {% else %}
+            {{ states.climate.living_room.attributes.mode }}
+          {% endif %}
+      freezer_temp_sensor_battery_level:
+        value_template: >-
+          {% if states.zwave.basement_freezer %}
+            {{ states.zwave.basement_freezer.attributes.battery_level }}
+          {% else %}
+            n/a
+          {% endif %}
+        friendly_name: 'Freezer Sensor'
+        unit_of_measurement: '%'
+        icon_template: >
+          {% set battery_level = states.zwave.basement_freezer.attributes.battery_level | default(0) | int %}
+          {% set battery_round = (battery_level / 10) | int * 10 %}
+          {% if battery_round >= 100 %}
+            mdi:battery
+          {% elif battery_round > 0 %}
+            mdi:battery-{{ battery_round }}
+          {% else %}
+            mdi:battery-alert
+          {% endif %}
+      door_rear_battery_level:
+        value_template: >-
+          {% if states.zwave.door_rear %}
+            {{ states.zwave.door_rear.attributes.battery_level }}
+          {% else %}
+            n/a
+          {% endif %}
+        friendly_name: 'Rear door lock'
+        unit_of_measurement: '%'
+        icon_template: >
+          {% set battery_level = states.zwave.door_rear.attributes.battery_level | default(0) | int %}
+          {% set battery_round = (battery_level / 10) | int * 10 %}
+          {% if battery_round >= 100 %}
+            mdi:battery
+          {% elif battery_round > 0 %}
+            mdi:battery-{{ battery_round }}
+          {% else %}
+            mdi:battery-alert
+          {% endif %}
+      door_front_battery_level:
+        value_template: >-
+          {% if states.zwave.door_front %}
+            {{ states.zwave.door_front.attributes.battery_level }}
+          {% else %}
+            n/a
+          {% endif %}
+        friendly_name: 'Front door lock'
+        unit_of_measurement: '%'
+        icon_template: >
+          {% set battery_level = states.zwave.door_front.attributes.battery_level | default(0) | int %}
+          {% set battery_round = (battery_level / 10) | int * 10 %}
+          {% if battery_round >= 100 %}
+            mdi:battery
+          {% elif battery_round > 0 %}
+            mdi:battery-{{ battery_round }}
+          {% else %}
+            mdi:battery-alert
+          {% endif %}
+      mailbox_battery_level:
+        value_template: >-
+          {% if states.zwave.mailbox %}
+            {{ states.zwave.mailbox.attributes.battery_level }}
+          {% else %}
+            n/a
+          {% endif %}
+        friendly_name: 'Mailbox sensor'
+        unit_of_measurement: '%'
+        icon_template: >
+          {% set battery_level = states.zwave.mailbox.attributes.battery_level | default(0) | int %}
+          {% set battery_round = (battery_level / 10) | int * 10 %}
+          {% if battery_round >= 100 %}
+            mdi:battery
+          {% elif battery_round > 0 %}
+            mdi:battery-{{ battery_round }}
+          {% else %}
+            mdi:battery-alert
+          {% endif %}
+      average_load:
+        friendly_name: 'System Load'
+        value_template: >-
+          {% if states.sensor.average_load_1m and states.sensor.average_load_5m and states.sensor.average_load_15m %}
+            {{states.sensor.average_load_1m.state}}, {{states.sensor.average_load_5m.state}}, {{states.sensor.average_load_15m.state}}
+          {% else %}
+            n/a
+          {% endif %}
+      sun_elevation:
+        friendly_name: 'Sun elevation'
+        unit_of_measurement: 'degrees'
+        value_template: "{{ states.sun.sun.attributes.elevation }}"
+      sun_azimuth:
+        friendly_name: 'Sun azimuth'
+        unit_of_measurement: 'degrees'
+        value_template: "{{ states.sun.sun.attributes.azimuth }}"
+
+  - platform: cert_expiry
+    host: !secret base_url
+  - platform: systemmonitor
+    resources:
+      - type: disk_use_percent
+        arg: /
+      - type: memory_free
+      - type: since_last_boot
+      - type: load_1m
+      - type: load_5m
+      - type: load_15m
+
+binary_sensor:
+  - platform: template
+    sensors:
+      media_center_state:
+        value_template: >-
+          {% if states.switch.media_center_switch and states.switch.media_center_switch.attributes.power_consumption %}
+            {{ states.switch.media_center_switch.attributes.power_consumption > 75 }}
+          {% else %}
+            {% raw %} Off {% endraw %}
+          {% endif %}
+  - platform: bayesian
+    name: 'interior_lights_required'
+    prior: 0.25
+    probability_threshold: 0.5
+    observations:
+      - entity_id: 'sensor.dark_sky_cloud_coverage'
+        platform: 'numeric_state'
+        above: 0.5
+        prob_given_true: 0.85 # 85% chance that if cloud coverage is above 60%, we need to turn on lights.
+        prob_given_false: 0.5 # 50% chance that if cloud coverage is above 60%, we don't need to turn on lights.
+      - entity_id: 'sensor.sun_elevation'
+        platform: 'numeric_state'
+        below: 25
+        prob_given_true: 1 # 100% chance that if the sun is below 25 degrees, we need to turn on lights
+        prob_given_false: 0.5 # 50% chance that if the sun is not below 25 deg, we need to turn on lights
+
+proximity:
+  home:
+    devices:
+      - device_tracker.eric_iphone
+      - device_tracker.eric_iphone_wifi
+      - device_tracker.pam_iphone
+      - device_tracker.pam_iphone_wifi
+    tolerance: 50
+    unit_of_measurement: mi
+
+panel_iframe:
+  weather_forecast:
+    title: Forecast
+    icon: mdi:cloud
+    url:  !secret forecast_url
+
+media_player:
+  - platform: apple_tv
+    host: 192.168.1.9
+    login_id: 00000000-0938-d890-69eb-ca542d0e4f70
+  - platform: sonos
+
+# Calendars
+google:
+  client_id: !secret google_cal_client_id
+  client_secret: !secret google_cal_client_secret
+
+# Text to speech
+tts:
+  - platform: google

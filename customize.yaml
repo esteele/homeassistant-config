@@ -1,0 +1,125 @@
+sensor.dark_sky_temperature:
+  friendly_name: Temperature
+  icon: mdi:thermometer-lines
+sensor.dark_sky_summary:
+  friendly_name: Currently
+  icon: mdi:weather-sunny
+sensor.dark_sky_apparent_temperature:
+  friendly_name: Apparent Temperature
+  icon: mdi:thermometer-lines
+sensor.dark_sky_precip:
+  friendly_name: Precipitation
+  icon: mdi:weather-pouring
+sensor.dark_sky_precip_probability:
+  friendly_name: Precipitation Probability
+  icon: mdi:weather-pouring
+sensor.dark_sky_precip_intensity:
+  icon: mdi:weather-pouring
+  friendly_name: Rainfall
+sensor.dark_sky_humidity:
+  icon: mdi:water-percent
+  friendly_name: Humidity
+sensor.dark_sky_cloud_coverage:
+  friendly_name: Cloud Cover
+  icon: mdi:weather-cloudy
+sensor.dark_sky_nearest_storm_distance:
+  icon: mdi:weather-lightning
+sensor.dark_sky_wind_speed:
+  icon: mdi:weather-windy
+sensor.main_floor_humidity:
+  icon: mdi:water-percent
+sensor.dark_sky_wind_bearing:
+  icon: mdi:weather-windy
+sensor.dark_sky_ozone:
+  icon: mdi:cloud
+sensor.dark_sky_pressure:
+  icon: mdi:weight
+sensor.dark_sky_minutely_summary:
+  friendly_name: Soon
+  icon: mdi:weather-sunny
+sensor.dark_sky_hourly_summary:
+  friendly_name: Hourly
+  icon: mdi:weather-sunny
+sensor.dark_sky_daily_summary:
+  friendly_name: Daily
+  icon: mdi:weather-sunny
+sensor.speedtest_ping:
+  friendly_name: Ping
+  icon: mdi:pulse
+sensor.speedtest_download:
+  friendly_name: Download
+  icon: mdi:arrow-down-bold
+sensor.speedtest_upload:
+  friendly_name: Upload
+  icon: mdi:arrow-up-bold
+switch.fountain_switch:
+  friendly_name: Fountain
+  icon: mdi:water-pump
+switch.irrigation_switch:
+  friendly_name: Irrigation
+  icon: mdi:flower
+switch.backyard_lights_switch:
+  friendly_name: Rear Lights
+  icon: mdi:lightbulb
+switch.kitchen_island_switch:
+  friendly_name: Kitchen Island
+  icon: mdi:lightbulb
+switch.kitchen_counters_switch:
+  friendly_name: Kitchen Counter
+  icon: mdi:lightbulb
+switch.kitchen_table_switch:
+  friendly_name: Kitchen Table
+  icon: mdi:lightbulb
+group.front_porch_light:
+  friendly_name: Front Porch Light
+  icon: mdi:lightbulb
+climate.living_room:
+  friendly_name: Thermostat
+  icon: mdi:thermometer-lines
+sensor.climate_state:
+  friendly_name: Current Program
+  icon: mdi:thermometer
+switch.lantern_switch:
+  friendly_name: Lantern
+  icon: mdi:lightbulb
+switch.icicle_lights_switch:
+  friendly_name: Icicle Lights
+  icon: mdi:lightbulb
+switch.christmas_tree_switch:
+  friendly_name: Christmas Tree
+  icon: mdi:pine-tree
+switch.stairway_lights_switch:
+  friendly_name: Stairway Lights
+  icon: mdi:lightbulb
+lock.door_rear_locked:
+  friendly_name: Rear Door
+lock.door_front_locked:
+  friendly_name: Front Door
+group.erics_office:
+  friendly_name: Eric's Office
+group.eric:
+  icon: mdi:human-male
+  friendly_name: Eric
+group.pam:
+  icon: mdi:human-female
+  friendly_name: Pam
+group.molly:
+  icon: mdi:human-female
+  friendly_name: Molly
+group.emma:
+  icon: mdi:human-female
+  friendly_name: Emma
+input_boolean.babysitter_mode:
+  icon: mdi:duck
+  friendly_name: Babysitter mode
+input_boolean.flux_lights:
+  icon: mdi:weather-sunset-down
+  friendly_name: Evening color change
+sensor.media_center_power:
+  icon: mdi:power-plug
+  friendly_name: Media Center
+sensor.basement_freezer_temperature:
+  icon: mdi:thermometer
+  friendly_name: Basement Freezer Temperature
+sensor.hue_update_available:
+  icon: mdi:download

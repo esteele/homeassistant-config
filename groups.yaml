@@ -1,0 +1,199 @@
+default_view:
+  view: true
+  icon: mdi:home
+  entities:
+  - group.family
+  - group.climate
+  - group.living_room
+  - group.dining_room
+  - group.kitchen
+  - group.erics_office
+  - group.upstairs_lights
+  - group.outside
+  - configurator.ecobee
+  - group.forecast
+  - group.scenes
+  - group.locks
+  name: default_view
+sensors:
+  name: Sensors
+  view: true
+  icon: mdi:gauge
+  entities:
+  - group.family
+  - group.weather
+  - group.interior_temperature
+  - group.occupancy
+  - group.system_status
+  - group.power_consumption
+  - group.battery_levels
+  - group.light_tracking
+media:
+  name: Media
+  view: true
+  icon: mdi:library-music
+  entities:
+    - media_player.kitchen
+    - media_player.bathroom
+    - media_player.kids_bedroom
+    - media_player.apple_tv
+automation:
+  name: Automation
+  view: true
+  icon: mdi:settings
+  entities:
+  - group.automation_override
+Power Consumption:
+- sensor.media_center_power
+Climate:
+- sensor.climate_state
+- climate.living_room
+Family:
+- group.eric
+- group.pam
+Living Room:
+- group.living_room_lamps
+- group.living_room_overheads
+- switch.lantern_switch
+- sensor.living_room_temperature
+Holiday Lighting:
+- switch.outlet_1_switch
+- switch.outlet_2_switch
+- switch.irrigation_switch
+Living Room Overheads:
+  view: false
+  entities:
+  - light.living_room_overhead_front_left
+  - light.living_room_overhead_front_right
+  - light.living_room_overhead_rear_left
+  - light.living_room_overhead_rear_right
+Living Room Lamps:
+  view: false
+  entities:
+  - light.living_room_reading_light
+  - light.living_room_table_lamp_left
+  - light.living_room_table_lamp_right
+Outside:
+  control: hidden
+  entities:
+  - light.front_porch
+  - switch.backyard_lights_switch
+  - switch.fountain_switch
+  - switch.irrigation_switch
+  # - switch.icicle_lights_switch
+Kitchen:
+- switch.kitchen_island_switch
+- switch.kitchen_counters_switch
+- switch.kitchen_table_switch
+- sensor.kitchen_temperature
+Dining Room:
+- light.chandelier
+Kitchen Lights:
+- switch.kitchen_island_switch
+- switch.kitchen_counters_switch
+- switch.kitchen_table_switch
+Erics Office:
+- light.office_desk
+- light.office_accent
+Downstairs Lights:
+- group.living_room
+- group.kitchen_lights
+- group.dining_room
+- group.erics_office
+- light.foyer
+Upstairs Lights:
+- light.upstairs_hallway
+Front Porch Light:
+- light.front_porch_bulb_1
+- light.front_porch_bulb_2
+Automation Override:
+  control: hidden
+  entities:
+  - input_boolean.babysitter_mode
+  - input_boolean.lights_morning
+  - input_boolean.lights_evening
+  - input_boolean.flux_lights
+  - input_boolean.movie_lighting
+Weather:
+- sensor.dark_sky_summary
+- sensor.dark_sky_temperature
+- sensor.dark_sky_apparent_temperature
+- sensor.dark_sky_precip
+- sensor.dark_sky_precip_probability
+- sensor.dark_sky_precip_intensity
+- sensor.dark_sky_cloud_coverage
+- sensor.dark_sky_humidity
+- sensor.dark_sky_dew_point
+- sensor.dark_sky_wind_speed
+- sensor.dark_sky_wind_bearing
+- sensor.dark_sky_visibility
+- sensor.dark_sky_ozone
+- sensor.dark_sky_pressure
+- sun.sun
+Forecast:
+- sensor.dark_sky_minutely_summary
+- sensor.dark_sky_hourly_summary
+- sensor.dark_sky_daily_summary
+Occupancy:
+- binary_sensor.living_room_occupancy
+- binary_sensor.kitchen_occupancy
+- binary_sensor.erics_office_occupancy
+- binary_sensor.emmas_bedroom_occupancy
+- binary_sensor.master_bedroom_occupancy
+- binary_sensor.pams_office_occupancy
+Interior Temperature:
+- sensor.kitchen_temperature
+- sensor.living_room_temperature
+- sensor.erics_office_temperature
+- sensor.pams_office_temperature
+- sensor.emmas_bedroom_temperature
+- sensor.master_bedroom_temperature
+- sensor.basement_freezer_temperature
+Scenes:
+- scene.good_morning
+- scene.good_night
+- scene.nightlight
+- scene.movie
+Morning Scenes:
+- scene.good_morning
+Evening Scenes:
+- scene.good_night
+- scene.nightlight
+- scene.movie
+Eric:
+- device_tracker.eric_iphone
+- device_tracker.eric_iphone_wifi
+Pam:
+- device_tracker.pam_iphone
+- device_tracker.pam_iphone_wifi
+Molly:
+- device_tracker.molly_iphone
+Emma:
+- device_tracker.emma_iphone
+Locks:
+- group.all_locks
+- lock.door_front_locked
+- lock.door_rear_locked
+Battery Levels:
+- sensor.door_front_battery_level
+- sensor.door_rear_battery_level
+- sensor.mailbox_battery_level
+- sensor.freezer_temp_sensor_battery_level
+System Status:
+- sensor.average_load
+- sensor.ram_free
+- sensor.ssl_certificate_expiry
+- sensor.speedtest_ping
+- sensor.speedtest_download
+- sensor.speedtest_upload
+- sensor.hue_update_available
+Christmas Lights:
+  - switch.christmas_tree_switch
+  - switch.icicle_lights_switch
+  - switch.stairway_lights_switch
+Light Tracking:
+  - sensor.dark_sky_cloud_coverage
+  - sensor.dark_sky_visibility
+  - sensor.sun_elevation
+  - sensor.sun_azimuth
+  - binary_sensor.interior_lights_required
