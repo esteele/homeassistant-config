@@ -53,9 +53,12 @@ class MorningAnnouncement(appapi.AppDaemon):
             'high': int(float(self.get_state(
                 'sensor.dark_sky_daily_high_apparent_temperature'))),
         }
+        # Clean up the weather forecast so it makes sense when read aloud.
         summary = self.get_state('sensor.dark_sky_hourly_summary')
         summary = summary.replace('cloudy ', 'cloudy skies ')
         summary = summary.replace('Clear ', 'clear skies ')
+        summary = summary.replace('1 in.', '1 inch')
+        summary = summary.replace('in.', 'inches')
         weather['summary'] = summary
         forecast = Template("Today's forecast calls for $summary, with a high of $high and a low of $low.")
         # self.log(forecast.safe_substitute(weather))
