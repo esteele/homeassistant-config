@@ -119,7 +119,7 @@ sensor.basement_freezer_temperature:
   icon: mdi:thermometer
   friendly_name: Basement Freezer Temperature
 sensor.hue_update_available:
-  icon: mdi:downloadbinary_sensor.eric_home:
+  icon: mdi:download
 binary_sensor.eric_home:
   device_class: presence
   friendly_name: Eric
