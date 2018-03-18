@@ -100,12 +100,6 @@ lock.door_front_locked:
   friendly_name: Front Door
 group.erics_office:
   friendly_name: Eric's Office
-group.eric:
-  icon: mdi:human-male
-  friendly_name: Eric
-group.pam:
-  icon: mdi:human-female
-  friendly_name: Pam
 group.molly:
   icon: mdi:human-female
   friendly_name: Molly
@@ -125,4 +119,14 @@ sensor.basement_freezer_temperature:
   icon: mdi:thermometer
   friendly_name: Basement Freezer Temperature
 sensor.hue_update_available:
-  icon: mdi:download
+  icon: mdi:downloadbinary_sensor.eric_home:
+binary_sensor.eric_home:
+  device_class: presence
+  friendly_name: Eric
+  icon: mdi:human-male
+binary_sensor.pam_home:
+  device_class: presence
+  friendly_name: Pam
+  icon: mdi:human-female
+group.family:
+  control: 'false'

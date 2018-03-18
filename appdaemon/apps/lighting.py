@@ -28,7 +28,7 @@ class Lighting(appapi.AppDaemon):
 
     @property
     def is_occoupied(self):
-        family_status = self.get_state('group.family') == 'home'
+        family_status = self.get_state('group.family') == 'home' or self.get_state('group.family') == 'on'
         return family_status or self.is_babysitter_mode
 
     # @property
@@ -297,9 +297,14 @@ class Away(Lighting):
 
         self.listen_state(
             self.set_house_away, 'group.family', old='home', new='not_home')
+        self.listen_state(
+            self.set_house_away, 'group.family', old='on', new='off')
 
         self.listen_state(
             self.set_house_home, 'group.family', old='not_home', new='home')
+        self.listen_state(
+            self.set_house_home, 'group.family', old='off', new='on')
+
 
         self.run_daily(
             self.set_house_evening, self.evening_start_time)

@@ -21,8 +21,10 @@ class House(Lighting):
         self.listen_event(self.lock_all_doors, 'ios.notification_action_fired', actionName='LOCK_ALL_DOORS')
         self.listen_event(self.turn_on_babysitter_mode, 'ios.notification_action_fired', actionName='TURN_ON_BABYSITTER_MODE')
 
-        self.listen_state(self.arrived_home, 'group.eric', old='not_home', new='home')
+        self.listen_state(self.arrived_home, 'binary_sensor.eric_home', old='not_home', new='home')
         self.listen_state(self.nobody_home, 'group.family', old='home', new='not_home')
+        self.listen_state(self.nobody_home, 'group.family', old='on', new='off')
+
 
         self.listen_state(self.mailbox_opened, 'binary_sensor.mailbox_sensor', old='off', new='on')
 

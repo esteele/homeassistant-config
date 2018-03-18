@@ -15,6 +15,23 @@ default_view:
   - group.scenes
   - group.locks
   name: default_view
+proximity:
+  name: Proximity
+  view: true
+  entities:
+  - group.eric_proximity
+  - group.pam_proximity
+Eric Proximity:
+- binary_sensor.eric_home
+- sensor.eric_ibeacon
+- binary_sensor.eric_ibeacon_home_state
+- device_tracker.eric_iphone_wifi
+- device_tracker.eric_iphone
+Pam Proximity:
+- binary_sensor.pam_home
+- binary_sensor.pam_ibeacon_home_state
+- device_tracker.pam_iphone_wifi
+- device_tracker.pam_iphone
 sensors:
   name: Sensors
   view: true
@@ -49,8 +66,8 @@ Climate:
 - sensor.climate_state
 - climate.living_room
 Family:
-- group.eric
-- group.pam
+- binary_sensor.eric_home
+- binary_sensor.pam_home
 Living Room:
 - group.living_room_lamps
 - group.living_room_overheads
@@ -129,7 +146,6 @@ Weather:
 - sensor.dark_sky_visibility
 - sensor.dark_sky_ozone
 - sensor.dark_sky_pressure
-- sensor.friendly_wind_direction
 - sun.sun
 Forecast:
 - sensor.dark_sky_minutely_summary
@@ -161,12 +177,6 @@ Evening Scenes:
 - scene.good_night
 - scene.nightlight
 - scene.movie
-Eric:
-- device_tracker.eric_iphone
-- device_tracker.eric_iphone_wifi
-Pam:
-- device_tracker.pam_iphone
-- device_tracker.pam_iphone_wifi
 Molly:
 - device_tracker.molly_iphone
 Emma:

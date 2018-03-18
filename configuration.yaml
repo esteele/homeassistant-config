@@ -360,6 +360,47 @@ binary_sensor:
         below: 25
         prob_given_true: 1 # 100% chance that if the sun is below 25 degrees, we need to turn on lights
         prob_given_false: 0.5 # 50% chance that if the sun is not below 25 deg, we need to turn on lights
+  - platform: bayesian
+    prior: 0.75
+    name: 'eric_home'
+    probability_threshold: 0.9
+    observations:
+      - entity_id: 'device_tracker.eric_iphone_wifi'
+        prob_given_true: 0.9
+        prob_given_false: 0.1
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'device_tracker.eric_iphone'
+        prob_given_true: 0.9
+        prob_given_false: 0.2
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'binary_sensor.eric_ibeacon_home_state'
+        prob_given_true: 0.9
+        prob_given_false: 0.1
+        platform: 'state'
+        to_state: 'home'
+  - platform: bayesian
+    prior: 0.75
+    name: 'pam_home'
+    probability_threshold: 0.9
+    observations:
+      - entity_id: 'binary_sensor.pam_ibeacon_home_state'
+        prob_given_true: 0.9
+        prob_given_false: 0.1
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'device_tracker.pam_iphone_wifi'
+        prob_given_true: 0.9
+        prob_given_false: 0.1
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'device_tracker.pam_iphone'
+        prob_given_true: 0.9
+        prob_given_false: 0.2
+        platform: 'state'
+        to_state: 'home'
+
 
 device_tracker:
   - platform: nmap_tracker
@@ -373,10 +414,8 @@ device_tracker:
 proximity:
   home:
     devices:
-      - device_tracker.eric_iphone
-      - device_tracker.eric_iphone_wifi
-      - device_tracker.pam_iphone
-      - device_tracker.pam_iphone_wifi
+      - binary_sensor.eric_home
+      - binary_sensor.pam_home
     tolerance: 50
     unit_of_measurement: mi
 
