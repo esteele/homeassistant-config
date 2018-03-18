@@ -342,10 +342,10 @@ class Away(Lighting):
         self.log("Setting house to away mode")
         if not self.is_babysitter_mode:
             # interior
-            self.turn_off('group.living_room')
-            self.turn_off('group.kitchen')
-            self.turn_off('group.christmas_lights')
+            self.turn_off('group.downstairs_lights')
+            self.turn_off('group.upstairs_lights')
             self.turn_off('switch.fountain_switch')
+            self.turn_off('group.christmas_lights')
 
             # thermostat
             self.call_service('climate/set_away_mode', away_mode=True)
@@ -365,12 +365,14 @@ class Away(Lighting):
             # interior
             self.turn_on('group.kitchen')
             self.turn_on('light.foyer')
+            self.turn_on('light.front_porch')
             # exterior
             self.turn_on_lights_with_timer(
                 entity_id='switch.backyard_lights_switch')
 
             if not self.is_babysitter_mode:
                 self.turn_on('scene.bright')
+                self.turn_on('light.dining_room')
                 # self.turn_on('group.living_room')
 
         if self.is_late_night:
