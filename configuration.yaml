@@ -327,6 +327,15 @@ binary_sensor:
         prob_given_true: 1 # 100% chance that if the sun is below 25 degrees, we need to turn on lights
         prob_given_false: 0.5 # 50% chance that if the sun is not below 25 deg, we need to turn on lights
 
+device_tracker:
+  - platform: nmap_tracker
+    # IP subnet of your home network
+    hosts: 192.168.1.1/24
+    # scanning interval
+    home_interval: 3
+    track_new_devices: no
+    scan_options: " -sP --host-timeout 10s"
+
 proximity:
   home:
     devices:
