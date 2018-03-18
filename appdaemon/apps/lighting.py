@@ -162,7 +162,11 @@ class Lighting(appapi.AppDaemon):
 
     def set_foyer_level(self, *args):
         self.log('setting foyer lighting level')
-        self.turn_on('light.foyer', brightness=50)
+        if self.is_late_night:
+            level = 255 * 0.5
+        else:
+            level = 255 * .75
+        self.turn_on('light.foyer', brightness=level)
 
 
 class Porch(Lighting):
