@@ -154,6 +154,8 @@ sensor:
       - daily_summary
       - wind_speed
       - wind_bearing
+      - ozone
+      - pressure
   # - platform: ups
   #   username: !secret ups_username
   #   password: !secret ups_password
