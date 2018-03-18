@@ -45,6 +45,7 @@ sensors:
   - group.power_consumption
   - group.battery_levels
   - group.light_tracking
+  - group.devices
 media:
   name: Media
   view: true
@@ -207,3 +208,11 @@ Light Tracking:
   - sensor.sun_elevation
   - sensor.sun_azimuth
   - binary_sensor.interior_lights_required
+Devices:
+- device_tracker.hue_hub
+- device_tracker.lutron_hub
+- device_tracker.happybubbles_sensor_1
+- device_tracker.sonos_kitchen_l
+- device_tracker.sonos_kitchen_r
+- device_tracker.sonos_kids_bedroom
+- device_tracker.sonos_bathroom
