@@ -152,6 +152,7 @@ sensor:
       - humidity
       - hourly_summary
       - daily_summary
+      - wind_speed
       - wind_bearing
   # - platform: ups
   #   username: !secret ups_username
@@ -268,10 +269,10 @@ sensor:
         friendly_name: 'Sun azimuth'
         unit_of_measurement: 'degrees'
         value_template: "{{ states.sun.sun.attributes.azimuth }}"
-      friendly_wind_direction:
-        friendly_name: 'Wind Direction'
+      friendly_wind:
+        friendly_name: 'Wind'
         value_template: >-
-          {%if states.sensor.dark_sky_wind_bearing.state | float<=11 %}N
+          {{ states.sensor.dark_sky_wind_speed.state }} MPH – {%if states.sensor.dark_sky_wind_bearing.state | float<=11 %}N
           {% elif states.sensor.dark_sky_wind_bearing.state | float>348 %}N
           {% elif states.sensor.dark_sky_wind_bearing.state | float<=34 | float>11 %}NNE
           {% elif states.sensor.dark_sky_wind_bearing.state | float<=56 | float>34 %}NE

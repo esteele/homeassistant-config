@@ -142,8 +142,7 @@ Weather:
 - sensor.dark_sky_cloud_coverage
 - sensor.dark_sky_humidity
 - sensor.dark_sky_dew_point
-- sensor.dark_sky_wind_speed
-- sensor.friendly_wind_direction
+- sensor.friendly_wind
 - sensor.dark_sky_ozone
 - sensor.dark_sky_pressure
 - sun.sun
