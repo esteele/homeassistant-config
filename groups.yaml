@@ -146,6 +146,8 @@ Weather:
 - sensor.dark_sky_ozone
 - sensor.dark_sky_pressure
 - sun.sun
+- sensor.pollen_rating
+- sensor.flu_rating
 Forecast:
 - sensor.dark_sky_minutely_summary
 - sensor.dark_sky_hourly_summary

@@ -290,6 +290,14 @@ sensor:
           {% elif states.sensor.dark_sky_wind_bearing.state | float<=326 | float>304 %}NW
           {% elif states.sensor.dark_sky_wind_bearing.state | float<=348 | float>326 %}NNW
           {%- endif %}
+      pollen_rating:
+        friendly_name: 'Pollen'
+        value_template: >-
+          {{ states.sensor.allergy_index_today.attributes.rating }}
+      flu_rating:
+        friendly_name: 'Cold/Flu'
+        value_template: >-
+          {{ states.sensor.cold__flu_forecasted_average.attributes.rating }}
   - platform: cert_expiry
     host: !secret base_url
   - platform: systemmonitor
@@ -313,6 +321,17 @@ sensor:
     state_topic: 'happy-bubbles/presence/ha'
     timeout: 5
     away_timeout: 45
+  - platform: pollen
+    zip_code: !secret home_zip_code
+    monitored_conditions:
+      - allergy_average_forecasted
+      - allergy_average_historical
+      - allergy_index_today
+      - allergy_index_tomorrow
+      - allergy_index_yesterday
+      - disease_average_forecasted
+
+
 
 mqtt:
   broker: localhost
