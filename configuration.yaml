@@ -300,6 +300,19 @@ sensor:
       - type: load_1m
       - type: load_5m
       - type: load_15m
+  - platform: mqtt_room
+    device_id: !secret eric_beacon_id
+    name: 'Eric iBeacon'
+    state_topic: 'happy-bubbles/presence/ha'
+    timeout: 5
+    away_timeout: 45
+  - platform: mqtt_room
+    device_id: !secret pam_beacon_id
+    name: 'Pam iBeacon'
+    state_topic: 'happy-bubbles/presence/ha'
+    timeout: 5
+    away_timeout: 45
+
 mqtt:
   broker: localhost
   port: 1883
@@ -317,6 +330,20 @@ binary_sensor:
             {{ states.switch.media_center_switch.attributes.power_consumption > 75 }}
           {% else %}
             {% raw %} Off {% endraw %}
+          {% endif %}
+      eric_ibeacon_home_state:
+        value_template: >-
+          {% if is_state('sensor.eric_ibeacon', 'not_home') %}
+            false
+          {% else %}
+            true
+          {% endif %}
+      pam_ibeacon_home_state:
+        value_template: >-
+          {% if is_state('sensor.pam_ibeacon', 'not_home') %}
+            false
+          {% else %}
+            true
           {% endif %}
   - platform: bayesian
     name: 'interior_lights_required'
