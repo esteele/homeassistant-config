@@ -50,6 +50,10 @@
   entities:
     switch.backyard_lights_switch:
       state: on
+    light.front_porch:
+      state: on
+    light.foyer:
+      state: on
     group.kitchen:
       state: on
     group.dining_room:
@@ -58,8 +62,9 @@
       state: on
       brightness: 254.0
       xy_color: [0.438, 0.382]
-    group.christmas_lights:
-      state: on
+
+# group.christmas_lights:
+#   state: on
 
 - name: Good Night
   entities:
