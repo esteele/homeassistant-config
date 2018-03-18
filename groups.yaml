@@ -129,6 +129,7 @@ Weather:
 - sensor.dark_sky_visibility
 - sensor.dark_sky_ozone
 - sensor.dark_sky_pressure
+- sensor.friendly_wind_direction
 - sun.sun
 Forecast:
 - sensor.dark_sky_minutely_summary

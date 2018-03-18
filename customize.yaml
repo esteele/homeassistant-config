@@ -43,6 +43,9 @@ sensor.dark_sky_hourly_summary:
 sensor.dark_sky_daily_summary:
   friendly_name: Daily
   icon: mdi:weather-sunny
+sensor.friendly_wind_direction:
+  friendly_name: Wind Direction
+  icon: mdi:weather-windy
 sensor.speedtest_ping:
   friendly_name: Ping
   icon: mdi:pulse
