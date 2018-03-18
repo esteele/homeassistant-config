@@ -300,6 +300,13 @@ sensor:
       - type: load_1m
       - type: load_5m
       - type: load_15m
+mqtt:
+  broker: localhost
+  port: 1883
+  client_id: hassio
+  keepalive: 60
+  username: !secret mqtt_username
+  password: !secret mqtt_password
 
 binary_sensor:
   - platform: template
