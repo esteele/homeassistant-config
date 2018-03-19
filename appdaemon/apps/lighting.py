@@ -4,8 +4,6 @@ import appdaemon.appapi as appapi
 class Lighting(appapi.AppDaemon):
     def initialize(self):
         self.log('Initializing lighting base class')
-        self.fluxer = None
-        self.fluxing_active = True
         self.listen_state(self.turn_fluxing_on,
                           'group.living_room_overheads',
                           old='off',
@@ -131,41 +129,17 @@ class Lighting(appapi.AppDaemon):
     def turn_fluxing_on(self, *args):
         self.log('turn_fluxing_on')
         if self.is_flux_mode:
-            self.fluxing_active = True
             self.set_state('input_boolean.living_room_fluxing_active', state='on')
-            # self.turn_on('switch.fluxer')
             self.fluxer = self._flux_lights(*args)
 
     def _flux_lights(self, *args):
         # if self.fluxing_active:
         if self.get_state('input_boolean.living_room_fluxing_active') == 'on':
-            self.log(self.get_state('light.living_room_overhead_front_left'))
-            self.log('Fluxxing is active')
             self.call_service('switch/fluxer_update')
             self.fluxer = self.run_in(self._flux_lights, 30)
-        else:
-            self.log('Fluxxing is inactive')
 
     def turn_fluxing_off(self, *args):
-        self.log('turn_fluxing_off')
-        # self.turn_off('switch.fluxer')
-        # self.log('cancelling timer')
-        self.fluxing_active = False
-        # if self.fluxer is None:
-        #     self.log('Fluxer not set')
-        #     return
-        # self.log(self.fluxer)
-        # time, interval, kwargs = self.info_timer(self.fluxer)
-        # self.log('%s/%s/%s' % (time, interval, kwargs))
         self.set_state('input_boolean.living_room_fluxing_active', state='off')
-
-        # try:
-        #     self.cancel_timer(self.fluxer)
-        #     self.log('Flux timer cancelled')
-        # except AttributeError:
-        #     self.log('Fluxer not found, skipping')
-        # time, interval, kwargs = self.info_timer(self.fluxer)
-        # self.log('%s/%s/%s' % (time, interval, kwargs))
 
     def set_foyer_level(self, *args):
         self.log('setting foyer lighting level')
