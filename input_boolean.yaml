@@ -52,3 +52,8 @@
     name: Enable voice notifications
     initial: on
     icon: mdi:bullhorn
+
+  living_room_fluxing_active:
+    name: Living Room Fluxing active
+    initial: on
+    icon: mdi:weather-sunset-down

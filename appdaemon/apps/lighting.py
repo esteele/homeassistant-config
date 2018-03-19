@@ -132,13 +132,19 @@ class Lighting(appapi.AppDaemon):
         self.log('turn_fluxing_on')
         if self.is_flux_mode:
             self.fluxing_active = True
+            self.set_state('input_boolean.living_room_fluxing_active', state='on')
             # self.turn_on('switch.fluxer')
             self.fluxer = self._flux_lights(*args)
 
     def _flux_lights(self, *args):
-        if self.fluxing_active:
+        # if self.fluxing_active:
+        if self.get_state('input_boolean.living_room_fluxing_active') == 'on':
+            self.log(self.get_state('light.living_room_overhead_front_left'))
+            self.log('Fluxxing is active')
             self.call_service('switch/fluxer_update')
             self.fluxer = self.run_in(self._flux_lights, 30)
+        else:
+            self.log('Fluxxing is inactive')
 
     def turn_fluxing_off(self, *args):
         self.log('turn_fluxing_off')
@@ -151,12 +157,13 @@ class Lighting(appapi.AppDaemon):
         # self.log(self.fluxer)
         # time, interval, kwargs = self.info_timer(self.fluxer)
         # self.log('%s/%s/%s' % (time, interval, kwargs))
+        self.set_state('input_boolean.living_room_fluxing_active', state='off')
 
-        try:
-            self.cancel_timer(self.fluxer)
-            self.log('Flux timer cancelled')
-        except AttributeError:
-            self.log('Fluxer not found, skipping')
+        # try:
+        #     self.cancel_timer(self.fluxer)
+        #     self.log('Flux timer cancelled')
+        # except AttributeError:
+        #     self.log('Fluxer not found, skipping')
         # time, interval, kwargs = self.info_timer(self.fluxer)
         # self.log('%s/%s/%s' % (time, interval, kwargs))
 
