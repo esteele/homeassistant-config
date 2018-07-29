@@ -17,7 +17,11 @@ porch:
 morningannouncement:
   module: notifications
   class: MorningAnnouncement
-  dependencies: utils
+
+schoolalerts:
+  module: notifications
+  class: SchoolAlerts
+  refresh_minutes: 15
 
 movietime:
   module: lighting

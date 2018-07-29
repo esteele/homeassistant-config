@@ -1,4 +1,4 @@
-import appdaemon.appapi as appapi
+import appdaemon.plugins.hass.hassapi as hass
 import json
 
 #
@@ -9,13 +9,13 @@ import json
 #   devices
 
 
-class Owntracks(appapi.AppDaemon):
+class Owntracks(hass.Hass):
 
     def initialize(self):
         self.log("Initializing location automation")
         repeat = float(self.args['refresh_minutes']) * 60.0
         self.run_every(self.update_location, self.datetime(), repeat)
-        self.listen_event(self.update_location, event='ha_started')
+        self.listen_event(self.update_location, event='plugin_started')
         self.update_location()
 
     def update_location(self, *args):

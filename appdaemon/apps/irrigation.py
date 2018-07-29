@@ -1,6 +1,6 @@
-import appdaemon.appapi as appapi
+import appdaemon.plugins.hass.hassapi as hass
 
-class Irrigation(appapi.AppDaemon):
+class Irrigation(hass.Hass):
 
     def initialize(self):
         self.log("Initializing irrigation automation")

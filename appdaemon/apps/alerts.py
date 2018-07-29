@@ -1,7 +1,7 @@
-import appdaemon.appapi as appapi
+import appdaemon.plugins.hass.hassapi as hass
 
 
-class HueUpdates(appapi.AppDaemon):
+class HueUpdates(hass.Hass):
 
     def initialize(self):
         self.listen_event(self.show_notification,

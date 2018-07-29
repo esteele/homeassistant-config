@@ -1,9 +1,9 @@
 import datetime
 import json
-import appdaemon.appapi as appapi
+import appdaemon.plugins.hass.hassapi as hass
 
 
-class Locks(appapi.AppDaemon):
+class Locks(hass.Hass):
 
     def initialize(self):
         # self.log('getting codes')
@@ -31,12 +31,12 @@ class Locks(appapi.AppDaemon):
                     self.clear_lock_code(slot)
 
 
-    def set_lock_code(self, slot, code):
+    def set_lock_code(self, slot='', code=''):
         for node_id in self.get_door_lock_ids():
             self.log('Setting lock code for node %s on slot %s' % (node_id, slot))
             self.call_service('lock/set_usercode', node_id=node_id, code_slot=slot, usercode=code)
 
-    def clear_lock_code(self, slot):
+    def clear_lock_code(self, slot=''):
         for node_id in self.get_door_lock_ids():
             self.log('Clearing lock code for node %s on slot %s' % (node_id, slot))
             self.call_service('lock/clear_usercode', node_id=node_id, code_slot=slot)

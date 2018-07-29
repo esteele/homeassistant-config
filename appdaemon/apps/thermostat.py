@@ -1,7 +1,7 @@
-import appdaemon.appapi as appapi
+import appdaemon.plugins.hass.hassapi as hass
 
 
-class Thermostat(appapi.AppDaemon):
+class Thermostat(hass.Hass):
 
     def initialize(self):
         self.log("Initializing thermostat automation")

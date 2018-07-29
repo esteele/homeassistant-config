@@ -1,10 +1,10 @@
-import appdaemon.appapi as appapi
+import appdaemon.plugins.hass.hassapi as hass
 
 
-class HWCheck(appapi.AppDaemon):
+class HWCheck(hass.Hass):
 
     def initialize(self):
-        self.listen_event(self.ha_event, "ha_started")
+        self.listen_event(self.ha_event, "plugin_started")
         self.listen_event(self.appd_event, "appd_started")
 
     def ha_event(self, event_name, data, kwargs):

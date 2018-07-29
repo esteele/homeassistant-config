@@ -1,7 +1,7 @@
-import appdaemon.appapi as appapi
+import appdaemon.plugins.hass.hassapi as hass
 
 
-class Lighting(appapi.AppDaemon):
+class Lighting(hass.Hass):
     def initialize(self):
         self.log('Initializing lighting base class')
         self.listen_state(self.turn_fluxing_on,
@@ -13,7 +13,7 @@ class Lighting(appapi.AppDaemon):
                           old='on',
                           new='off')
         self.listen_state(self.set_foyer_level,
-                          'light.foyer',
+                          'light.front_foyer_foyer',
                           old='off',
                           new='on')
 
@@ -116,6 +116,7 @@ class Lighting(appapi.AppDaemon):
 
     @property
     def is_evening(self):
+        self.log("Evening is between %s and %s" % (self.evening_start_time, self.evening_end_time))
         return self.now_is_between(self.evening_start, self.evening_end)
 
     @property
@@ -144,15 +145,14 @@ class Lighting(appapi.AppDaemon):
     def set_foyer_level(self, *args):
         self.log('setting foyer lighting level')
         if self.is_late_night:
-            level = 255 * 0.5
+            self.turn_on('light.front_foyer_foyer', brightness_pct=50)
         else:
-            level = 255 * .75
-        self.turn_on('light.foyer', brightness=level)
+            self.turn_on('light.front_foyer_foyer', brightness_pct=75)
 
 
 class Porch(Lighting):
 
-    LIGHT_NAME = 'light.front_porch'
+    LIGHT_NAME = 'light.front_porch_front_porch'
     # LIGHT_NAME = 'switch.icicle_lights_switch'
 
     def initialize(self):
@@ -206,7 +206,7 @@ class MovieTime(Lighting):
                           self.trigger,
                           old='off',
                           new='on')
-        self.listen_state(self.end_movie_time,
+        self.listen_state(self.end_movie_time_delayed,
                           self.trigger,
                           old='on',
                           new='off')
@@ -218,6 +218,12 @@ class MovieTime(Lighting):
                           'media_player.apple_tv',
                           old='playing',
                           new='paused')
+        self.listen_state(self.movie_paused,
+                          'media_player.apple_tv',
+                          old='playing',
+                          new='idle')
+
+
 
         self.listen_state(self.end_movie_time,
                           'input_boolean.movie_lighting',
@@ -240,35 +246,58 @@ class MovieTime(Lighting):
         return value
 
     def start_movie_time(self, *args):
-        if self.movie_time_enabled and self.media_center_active and (self.is_evening or self.is_late_night):
+        self.log('movie_time_enabled: %s' % self.movie_time_enabled)
+        self.log('media_center_active: %s' % self.media_center_active)
+        self.log('is_evening: %s' % self.is_evening)
+        self.log('is_late_night %s' % self.is_late_night)
+        media_playing = self.get_state('media_player.apple_tv') == 'playing'
+        if self.movie_time_enabled and self.media_center_active and not media_playing and (self.is_evening or self.is_late_night):
             self.log("Starting movie time")
             self.turn_fluxing_off()
             self.turn_on('scene.movie_paused')
             # self.repeat_handler = self.run_in(self.start_movie_time, 30)
 
     def start_movie_time_delayed(self, *args):
+        self.log('start_movie_time_delayed')
         # Add a delay to cover fluctuations in power level as media center elements start up.
         self.run_in(self.start_movie_time, 5)
 
     def movie_playing(self, *args):
+        self.log('movie_playing')
         if self.movie_time_enabled and self.media_center_active and (self.is_evening or self.is_late_night):
-            self.log('movie playing')
+            self.log('movie playing check passed')
             self.turn_on('scene.movie_playing')
+            if self.get_state('light.front_foyer_foyer') == 'on':
+                self.turn_on('light.front_foyer_foyer', brightness_pct=10, transition=3)
+
 
     def movie_paused(self, *args):
+        self.log('movie_paused')
         self.log('%s|%s|%s' % (self.movie_time_enabled, self.media_center_active,  (self.is_evening or self.is_late_night)))
         if self.movie_time_enabled and self.media_center_active and (self.is_evening or self.is_late_night):
-            self.log('movie paused')
+            self.log('movie_paused check passed')
             self.turn_on('scene.movie_paused')
+            if self.get_state('light.front_foyer_foyer') == 'on':
+                self.turn_on('light.front_foyer_foyer', brightness_pct=75, transition=3)
 
-    def end_movie_time(self, trigger, change, current, previous, *args):
+
+    def end_movie_time_delayed(self, *args):
+        self.log('end_movie_time_delayed')
+        # Add a delay to cover fluctuations in power level as media center elements start up.
+        self.run_in(self.end_movie_time, 3)
+
+    def end_movie_time(self, *args):
         # Check playing state again, so we can reuse this method for the input_boolean.movie_lighting toggle
-        if not self.media_center_active and (self.is_evening or self.is_late_night):
+        self.log('end_movie_time')
+        media_playing = self.get_state('media_player.apple_tv') == 'playing'
+        if not self.media_center_active and not media_playing and (self.is_evening or self.is_late_night):
             self.log("Ending movie time")
             self.turn_fluxing_on()
             self.turn_on('scene.bright')
             # if self.repeat_handler is not None:
             #     self.cancel_timer(self.repeat_handler)
+            if self.get_state('light.front_foyer_foyer') == 'on':
+                self.turn_on('light.front_foyer_foyer', brightness_pct=75, transition=3)
 
 
 class Away(Lighting):
@@ -276,16 +305,21 @@ class Away(Lighting):
     def initialize(self):
         self.log("Initializing away state automation")
 
-        self.listen_state(
-            self.set_house_away, 'group.family', old='home', new='not_home')
-        self.listen_state(
-            self.set_house_away, 'group.family', old='on', new='off')
+        #self.listen_state(
+        #    self.set_house_away, 'group.family', old='home', new='not_home')
+        #self.listen_state(
+        #    self.set_house_away, 'group.family', old='on', new='off')
 
         self.listen_state(
             self.set_house_home, 'group.family', old='not_home', new='home')
         self.listen_state(
             self.set_house_home, 'group.family', old='off', new='on')
 
+
+        # self.listen_state(
+        #     self.set_house_home, 'binary_sensor.eric_home', old='off', new='on')
+        # self.listen_state(
+        #     self.set_house_home, 'binary_sensor.pam_home', old='off', new='on')
 
         self.run_daily(
             self.set_house_evening, self.evening_start_time)
@@ -345,21 +379,21 @@ class Away(Lighting):
         if self.is_evening:
             # interior
             self.turn_on('group.kitchen')
-            self.turn_on('light.foyer')
-            self.turn_on('light.front_porch')
+            self.turn_on('light.front_foyer_foyer')
+            self.turn_on('light.front_porch_front_porch')
             # exterior
             self.turn_on_lights_with_timer(
                 entity_id='switch.backyard_lights_switch')
 
             if not self.is_babysitter_mode:
                 self.turn_on('scene.bright')
-                self.turn_on('light.dining_room')
+                self.turn_on('light.dining_room_dining_room')
                 # self.turn_on('group.living_room')
 
         if self.is_late_night:
             self.turn_on_lights_with_timer(
                 entity_id='switch.backyard_lights_switch')
             self.turn_on_lights_with_timer(
-                entity_id='light.front_porch')
-            self.turn_on('light.foyer')
+                entity_id='light.front_porch_front_porch')
+            self.turn_on('light.front_foyer_foyer')
             self.turn_on('switch.kitchen_island_switch')

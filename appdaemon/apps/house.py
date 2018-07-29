@@ -1,5 +1,5 @@
 import csv
-import appdaemon.appapi as appapi
+import appdaemon.plugins.hass.hassapi as hass
 from lighting import Lighting
 
 class House(Lighting):
@@ -177,8 +177,8 @@ class House(Lighting):
         # status = state['lock_status']
         # friendly_name = state['friendly_name']
         # notification = self.get_state(entity_id, 'notification')
-        status = self.get_state(entity_id, 'lock_status')
-        friendly_name = self.get_state(entity_id, 'friendly_name')
+        status = self.get_state(entity=entity_id, attribute='lock_status')
+        friendly_name = self.get_state(entity=entity_id, attribute='friendly_name')
         self.log('A door was unlocked, so I\'m sending a notification')
         self.call_service('notify/ios_eric_iphone',
                           message=status,
@@ -186,13 +186,13 @@ class House(Lighting):
                           data={'push': {'category': 'DOOR_LOCKS'}})
 
     def turn_off_rear_lights(self, *args):
-        lock_type = self.get_state('lock.door_rear_locked', 'notification')
+        lock_type = self.get_state(entity='lock.door_rear_locked', attribute='notification')
         if lock_type == 'Manual Lock':
             self.log('The rear door was manually locked, so I\'m turning off the rear lights')
             self.turn_off('switch.backyard_lights_switch')
 
     def turn_on_rear_lights(self, *args):
-        action = self.get_state('lock.door_rear_locked', 'notification')
+        action = self.get_state(entity='lock.door_rear_locked', attribute='notification')
         if action == 'Manual Unlock':
             self.log('The rear door was manually unlocked, so I\'m turning on the rear lights')
             self.turn_on('switch.backyard_lights_switch')
